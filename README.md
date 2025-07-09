@@ -1,6 +1,6 @@
 # ♻️ CLEANBAGE – Smart Waste Management App
 
-**CLEANBAGE** is a smart and modern web application built to revolutionize urban waste management for **Jamnagar City**. The app allows users to schedule pickups, track waste segregation efforts, view community stats, earn rewards, and stay informed with real-time updates—all in one place.
+**CLEANBAGE** is a smart and modern web application built to revolutionize urban waste management. The app allows users to schedule pickups, track waste segregation efforts, view community stats, earn rewards, and stay informed with real-time updates—all in one place.
 
 ## 🌟 Key Features
 
