@@ -1,0 +1,274 @@
+"use client"
+
+import { useState, useEffect } from "react"
+import { Button } from "@/components/ui/button"
+import { Badge } from "@/components/ui/badge"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { User, Wallet, History, Settings, LogOut, Award, Calendar, Recycle, TrendingUp, Star } from "lucide-react"
+
+export default function ProfilePage({ user, onLogout }) {
+  const [activities, setActivities] = useState([])
+  const [achievements, setAchievements] = useState([])
+  const [userStats, setUserStats] = useState({})
+
+  useEffect(() => {
+    const mockActivities = [
+      {
+        id: 1,
+        type: "Organic Waste Collection",
+        points: 15,
+        date: "2024-01-15",
+        status: "completed",
+      },
+      {
+        id: 2,
+        type: "Plastic Recycling",
+        points: 25,
+        date: "2024-01-14",
+        status: "completed",
+      },
+      {
+        id: 3,
+        type: "Community Clean-up",
+        points: 50,
+        date: "2024-01-12",
+        status: "completed",
+      },
+      {
+        id: 4,
+        type: "E-waste Submission",
+        points: 30,
+        date: "2024-01-10",
+        status: "completed",
+      },
+    ]
+
+    const mockAchievements = [
+      { name: "Eco Warrior", description: "Completed 50 waste collection tasks", earned: true },
+      { name: "Green Champion", description: "Earned 1000 EcoCoins", earned: true },
+      { name: "Community Leader", description: "Organized 5 community events", earned: false },
+      { name: "Recycling Master", description: "Recycled 100kg of waste", earned: true },
+    ]
+
+    const mockUserStats = {
+      currentBalance: user.coins,
+      earnedThisMonth: 120,
+      totalRedeemed: 45,
+      totalEarned: user.coins * 3,
+    }
+
+    setActivities(mockActivities)
+    setAchievements(mockAchievements)
+    setUserStats(mockUserStats)
+  }, [user.coins])
+
+  return (
+    <div className="min-h-screen bg-[url('/bg.png')] bg-cover bg-no-repeat bg-fixed">
+      <div className="max-w-6xl mx-auto p-6 space-y-6">
+        <div className="bg-gradient-to-br from-[#E6FFF2] to-[#F3E8FF] backdrop-blur-md rounded-xl shadow-lg p-4 space-y-6">
+        {/* Profile Header */}
+        <Card>
+          <CardContent className="p-8">
+            <div className="flex items-center space-x-6">
+              <div className="w-20 h-20 bg-emerald-100 rounded-full flex items-center justify-center">
+                <User className="w-10 h-10 text-emerald-600" />
+              </div>
+              <div className="flex-1">
+                <h1 className="text-3xl font-bold text-gray-900">{user.name}</h1>
+                <p className="text-gray-600">{user.email}</p>
+                <p className="text-gray-600">{user.society}</p>
+              </div>
+              <div className="text-right">
+                <div className="flex items-center space-x-2 mb-2">
+                  <Award className="w-5 h-5 text-yellow-600" />
+                  <span className="text-xl font-bold text-gray-900">Rank #{user.rank}</span>
+                </div>
+                <p className="text-gray-600">Society Ranking</p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Wallet Section */}
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <Wallet className="w-5 h-5 text-emerald-600" />
+              EcoCoin Wallet
+            </CardTitle>
+            <p className="text-gray-600">Track your earnings and spending</p>
+          </CardHeader>
+          <CardContent>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              <div className="text-center p-4 bg-yellow-50 rounded-lg border border-yellow-200">
+                <div className="text-2xl font-bold text-yellow-600 mb-1">{userStats.currentBalance}</div>
+                <div className="text-gray-600 text-sm">Current Balance</div>
+              </div>
+              <div className="text-center p-4 bg-green-50 rounded-lg border border-green-200">
+                <div className="text-2xl font-bold text-green-600 mb-1">{userStats.earnedThisMonth}</div>
+                <div className="text-gray-600 text-sm">Earned This Month</div>
+              </div>
+              <div className="text-center p-4 bg-blue-50 rounded-lg border border-blue-200">
+                <div className="text-2xl font-bold text-blue-600 mb-1">{userStats.totalRedeemed}</div>
+                <div className="text-gray-600 text-sm">Total Redeemed</div>
+              </div>
+              <div className="text-center p-4 bg-teal-50 rounded-lg border border-teal-200">
+                <div className="text-2xl font-bold text-teal-600 mb-1">{userStats.totalEarned}</div>
+                <div className="text-gray-600 text-sm">Total Earned</div>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Activity History */}
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <History className="w-5 h-5 text-emerald-600" />
+              Recent Activities
+            </CardTitle>
+            <p className="text-gray-600">Your latest waste management activities</p>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            {activities.map((activity) => (
+              <div
+                key={activity.id}
+                className="flex items-center justify-between p-4 bg-green-50 rounded-lg border border-green-200"
+              >
+                <div className="flex items-center space-x-4">
+                  <div className="w-10 h-10 bg-emerald-500 rounded-full flex items-center justify-center">
+                    <Recycle className="w-5 h-5 text-white" />
+                  </div>
+                  <div>
+                    <h3 className="font-semibold text-gray-900">{activity.type}</h3>
+                    <div className="flex items-center space-x-2 text-sm text-gray-600">
+                      <Calendar className="w-4 h-4" />
+                      <span>{new Date(activity.date).toLocaleDateString()}</span>
+                    </div>
+                  </div>
+                </div>
+                <div className="text-right">
+                  <div className="flex items-center space-x-1 text-emerald-600 mb-1">
+                    <span className="font-bold">+{activity.points}</span>
+                    <span className="text-sm">coins</span>
+                  </div>
+                  <Badge className="bg-green-100 text-green-700 text-xs">{activity.status}</Badge>
+                </div>
+              </div>
+            ))}
+          </CardContent>
+        </Card>
+
+        {/* Achievements */}
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <Award className="w-5 h-5 text-yellow-600" />
+              Achievements
+            </CardTitle>
+            <p className="text-gray-600">Your eco-warrior badges and accomplishments</p>
+          </CardHeader>
+          <CardContent>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {achievements.map((achievement, index) => (
+                <div
+                  key={index}
+                  className={`p-4 rounded-lg border ${
+                    achievement.earned ? "bg-yellow-50 border-yellow-200" : "bg-gray-50 border-gray-200"
+                  }`}
+                >
+                  <div className="flex items-center space-x-3">
+                    <div
+                      className={`w-12 h-12 rounded-full flex items-center justify-center ${
+                        achievement.earned ? "bg-yellow-100" : "bg-gray-200"
+                      }`}
+                    >
+                      <Award className={`w-6 h-6 ${achievement.earned ? "text-yellow-600" : "text-gray-500"}`} />
+                    </div>
+                    <div>
+                      <h3 className={`font-semibold ${achievement.earned ? "text-gray-900" : "text-gray-500"}`}>
+                        {achievement.name}
+                      </h3>
+                      <p className={`text-sm ${achievement.earned ? "text-gray-600" : "text-gray-400"}`}>
+                        {achievement.description}
+                      </p>
+                    </div>
+                    {achievement.earned && (
+                      <div className="ml-auto">
+                        <Star className="w-5 h-5 text-yellow-500 fill-current" />
+                      </div>
+                    )}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Settings & Actions */}
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <Settings className="w-5 h-5 text-gray-600" />
+              Account Settings
+            </CardTitle>
+            <p className="text-gray-600">Manage your account and preferences</p>
+          </CardHeader>
+          <CardContent className="space-y-3">
+            <Button
+              variant="outline"
+              className="w-full justify-start border-emerald-300 text-emerald-600 hover:bg-emerald-50 bg-transparent"
+            >
+              <Settings className="w-4 h-4 mr-2" />
+              Edit Profile
+            </Button>
+            <Button
+              variant="outline"
+              className="w-full justify-start border-blue-300 text-blue-600 hover:bg-blue-50 bg-transparent"
+            >
+              <Wallet className="w-4 h-4 mr-2" />
+              Transaction History
+            </Button>
+            <Button
+              variant="outline"
+              onClick={onLogout}
+              className="w-full justify-start border-red-300 text-red-600 hover:bg-red-50 bg-transparent"
+            >
+              <LogOut className="w-4 h-4 mr-2" />
+              Sign Out
+            </Button>
+          </CardContent>
+        </Card>
+
+        {/* About & Impact */}
+        <Card>
+          <CardHeader className="text-center">
+            <CardTitle>Your Environmental Impact</CardTitle>
+            <p className="text-gray-600">See how you're making a difference with CLEANBAGE</p>
+          </CardHeader>
+          <CardContent>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="text-center p-6 bg-green-50 rounded-lg border border-green-200">
+                <div className="w-16 h-16 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <TrendingUp className="w-8 h-8 text-white" />
+                </div>
+                <h4 className="font-semibold text-gray-900 mb-2">Our Impact</h4>
+                <p className="text-green-600 font-bold text-lg mb-1">1M+ kg</p>
+                <p className="text-gray-600 text-sm">Waste properly managed</p>
+              </div>
+              <div className="text-center p-6 bg-blue-50 rounded-lg border border-blue-200">
+                <div className="w-16 h-16 bg-blue-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <User className="w-8 h-8 text-white" />
+                </div>
+                <h4 className="font-semibold text-gray-900 mb-2">Community</h4>
+                <p className="text-blue-600 font-bold text-lg mb-1">50,000+</p>
+                <p className="text-gray-600 text-sm">Active eco-warriors</p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+    </div>
+    </div>
+  )
+}
