@@ -14,7 +14,7 @@ export default function Dashboard({ user, onLogout }) {
   const renderPage = () => {
     switch (currentPage) {
       case "schedule":
-        return <SchedulePage user={user} />
+        return <SchedulePage user={user} onPageChange={setCurrentPage} />
       case "leaderboard":
         return <LeaderboardPage user={user} />
       case "rewards":
@@ -24,7 +24,7 @@ export default function Dashboard({ user, onLogout }) {
       case "profile":
         return <ProfilePage user={user} onLogout={onLogout} />
       default:
-        return <SchedulePage user={user} />
+        return <SchedulePage user={user} onPageChange={setCurrentPage} />
     }
   }
 

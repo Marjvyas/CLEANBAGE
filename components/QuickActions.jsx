@@ -1,39 +1,53 @@
 "use client"
 
-import { Card, CardContent } from "@/components/ui/card"
-import { Zap, Camera, MapPin, Gift, Users, Phone } from "lucide-react"
+import { Calendar, Recycle, AlertTriangle } from "lucide-react"
 
-export default function QuickActions() {
+export default function QuickActions({ onActionSelect, onPageChange }) {
+  const handleButtonClick = (actionId) => {
+    if (actionId === "schedule") {
+      onPageChange("requests") // Ensure this matches the page name in Dashboard
+    } else {
+      onActionSelect(actionId)
+    }
+  }
+
   const actions = [
-    { icon: Camera, label: "Scan Waste", color: "bg-gradient-to-br from-blue-400 to-cyan-400" },
-    { icon: MapPin, label: "Find Bins", color: "bg-gradient-to-br from-green-400 to-emerald-400" },
-    { icon: Gift, label: "Rewards", color: "bg-gradient-to-br from-teal-400 to-cyan-400" },
-    { icon: Users, label: "Community", color: "bg-gradient-to-br from-emerald-400 to-green-400" },
-    { icon: Phone, label: "Support", color: "bg-gradient-to-br from-blue-400 to-teal-400" },
+    {
+      id: "collect",
+      title: "Collect Waste",
+      description: "Start collecting waste in your area",
+      icon: <Recycle className="w-6 h-6" />
+    },
+    {
+      id: "schedule",
+      title: "Schedule Pickup",
+      description: "Schedule a waste pickup time",
+      icon: <Calendar className="w-6 h-6" />
+    },
+    {
+      id: "report",
+      title: "Report Dumping",
+      description: "Report illegal waste dumping",
+      icon: <AlertTriangle className="w-6 h-6" />
+    }
   ]
 
   return (
-    <Card className="bg-white/80 backdrop-blur-sm border-0 shadow-lg">
-      <CardContent className="p-4">
-        <div className="flex items-center space-x-2 mb-4">
-          <Zap className="w-5 h-5 text-emerald-600" />
-          <h3 className="font-semibold text-emerald-700">Quick Actions</h3>
-        </div>
-        <div className="grid grid-cols-5 gap-3">
-          {actions.map((action, index) => {
-            const Icon = action.icon
-            return (
-              <button
-                key={index}
-                className={`flex flex-col items-center p-3 rounded-xl ${action.color} hover:scale-105 transition-all duration-300 shadow-md`}
-              >
-                <Icon className="w-6 h-6 text-white mb-2" />
-                <span className="text-xs text-white font-medium text-center">{action.label}</span>
-              </button>
-            )
-          })}
-        </div>
-      </CardContent>
-    </Card>
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+      {actions.map((action) => (
+        <button
+          key={action.id}
+          onClick={() => handleButtonClick(action.id)}
+          className="flex flex-col items-center p-6 bg-white rounded-xl shadow-md hover:shadow-lg transition-shadow"
+        >
+          <div className="p-3 bg-emerald-500 rounded-full mb-3">
+            {action.icon}
+          </div>
+          <h3 className="font-semibold text-lg mb-1">{action.title}</h3>
+          <p className="text-gray-600 text-sm text-center">{action.description}</p>
+        </button>
+      ))}
+    </div>
   )
 }
+
