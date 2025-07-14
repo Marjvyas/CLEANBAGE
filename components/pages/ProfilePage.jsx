@@ -1,17 +1,37 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { User, Wallet, History, Settings, LogOut, Award, Calendar, Recycle, TrendingUp, Star } from "lucide-react"
+import { Button } from "../ui/button"
+import { Badge } from "../ui/badge"
+import { Card, CardContent, CardHeader, CardTitle } from "../ui/card"
+import { User, Wallet, History, Settings, LogOut, Award, Calendar, Recycle, TrendingUp, Star, QrCode } from "lucide-react"
+import UserBalance from "../UserBalance"
+import { useUser } from "../../context/UserContext"
 
-export default function ProfilePage({ user, onLogout }) {
+export default function ProfilePage({ user, onLogout, onPageChange }) {
   const [activities, setActivities] = useState([])
   const [achievements, setAchievements] = useState([])
   const [userStats, setUserStats] = useState({})
+  const [recentRewards, setRecentRewards] = useState([])
+  const { refreshUserData } = useUser()
 
   useEffect(() => {
+    // Refresh user data when profile loads
+    refreshUserData()
+    
+    // Load recent rewards from localStorage
+    const loadRecentRewards = () => {
+      try {
+        const rewardHistory = JSON.parse(localStorage.getItem("rewardHistory") || "[]")
+        const userRewards = rewardHistory.filter(reward => reward.userId === user.userId)
+        setRecentRewards(userRewards.slice(0, 5)) // Show last 5 rewards
+      } catch (error) {
+        console.error("Error loading reward history:", error)
+      }
+    }
+    
+    loadRecentRewards()
+
     const mockActivities = [
       {
         id: 1,
@@ -63,9 +83,9 @@ export default function ProfilePage({ user, onLogout }) {
   }, [user.coins])
 
   return (
-    <div className="min-h-screen bg-[url('/bg.png')] bg-cover bg-no-repeat bg-fixed">
+    <div className="min-h-screen">
       <div className="max-w-6xl mx-auto p-6 space-y-6">
-        <div className="bg-gradient-to-br from-[#E6FFF2] to-[#F3E8FF] backdrop-blur-md rounded-xl shadow-lg p-4 space-y-6">
+        <div className="page-enhanced-blur p-4 space-y-6">
         {/* Profile Header */}
         <Card>
           <CardContent className="p-8">
@@ -77,6 +97,23 @@ export default function ProfilePage({ user, onLogout }) {
                 <h1 className="text-3xl font-bold text-gray-900">{user.name}</h1>
                 <p className="text-gray-600">{user.email}</p>
                 <p className="text-gray-600">{user.society}</p>
+                <div className="flex items-center space-x-2 mt-2">
+                  {user.selectedRole === "collector" && (
+                    <Badge className="bg-emerald-100 text-emerald-800">
+                      Authorized Collector
+                    </Badge>
+                  )}
+                  {user.canSwitchRoles && (
+                    <Badge variant="secondary">
+                      Multi-Role Access
+                    </Badge>
+                  )}
+                  {user.collectorId && (
+                    <Badge variant="outline" className="text-xs">
+                      ID: {user.collectorId}
+                    </Badge>
+                  )}
+                </div>
               </div>
               <div className="text-right">
                 <div className="flex items-center space-x-2 mb-2">
@@ -95,18 +132,19 @@ export default function ProfilePage({ user, onLogout }) {
             <CardTitle className="flex items-center gap-2">
               <Wallet className="w-5 h-5 text-emerald-600" />
               EcoCoin Wallet
+              <UserBalance compact={true} />
             </CardTitle>
             <p className="text-gray-600">Track your earnings and spending</p>
           </CardHeader>
           <CardContent>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
               <div className="text-center p-4 bg-yellow-50 rounded-lg border border-yellow-200">
-                <div className="text-2xl font-bold text-yellow-600 mb-1">{userStats.currentBalance}</div>
-                <div className="text-gray-600 text-sm">Current Balance</div>
+                <UserBalance />
+                <div className="text-gray-600 text-sm mt-2">Current Balance</div>
               </div>
               <div className="text-center p-4 bg-green-50 rounded-lg border border-green-200">
-                <div className="text-2xl font-bold text-green-600 mb-1">{userStats.earnedThisMonth}</div>
-                <div className="text-gray-600 text-sm">Earned This Month</div>
+                <div className="text-2xl font-bold text-green-600 mb-1">{recentRewards.length}</div>
+                <div className="text-gray-600 text-sm">Collections This Month</div>
               </div>
               <div className="text-center p-4 bg-blue-50 rounded-lg border border-blue-200">
                 <div className="text-2xl font-bold text-blue-600 mb-1">{userStats.totalRedeemed}</div>
@@ -130,34 +168,82 @@ export default function ProfilePage({ user, onLogout }) {
             <p className="text-gray-600">Your latest waste management activities</p>
           </CardHeader>
           <CardContent className="space-y-4">
-            {activities.map((activity) => (
-              <div
-                key={activity.id}
-                className="flex items-center justify-between p-4 bg-green-50 rounded-lg border border-green-200"
-              >
-                <div className="flex items-center space-x-4">
-                  <div className="w-10 h-10 bg-emerald-500 rounded-full flex items-center justify-center">
-                    <Recycle className="w-5 h-5 text-white" />
-                  </div>
-                  <div>
-                    <h3 className="font-semibold text-gray-900">{activity.type}</h3>
-                    <div className="flex items-center space-x-2 text-sm text-gray-600">
-                      <Calendar className="w-4 h-4" />
-                      <span>{new Date(activity.date).toLocaleDateString()}</span>
+            {recentRewards.length > 0 ? (
+              recentRewards.map((reward, index) => (
+                <div
+                  key={`reward-${index}`}
+                  className="flex items-center justify-between p-4 bg-green-50 rounded-lg border border-green-200"
+                >
+                  <div className="flex items-center space-x-4">
+                    <div className="w-10 h-10 bg-emerald-500 rounded-full flex items-center justify-center">
+                      <Award className="w-5 h-5 text-white" />
+                    </div>
+                    <div>
+                      <h3 className="font-semibold text-gray-900">Waste Collection Reward</h3>
+                      <div className="flex items-center space-x-2 text-sm text-gray-600">
+                        <Calendar className="w-4 h-4" />
+                        <span>{new Date(reward.timestamp).toLocaleDateString()}</span>
+                        <span>{new Date(reward.timestamp).toLocaleTimeString()}</span>
+                      </div>
                     </div>
                   </div>
-                </div>
-                <div className="text-right">
-                  <div className="flex items-center space-x-1 text-emerald-600 mb-1">
-                    <span className="font-bold">+{activity.points}</span>
-                    <span className="text-sm">coins</span>
+                  <div className="text-right">
+                    <div className="flex items-center space-x-1 text-emerald-600 mb-1">
+                      <span className="font-bold">+{reward.pointsAwarded}</span>
+                      <span className="text-sm">coins</span>
+                    </div>
+                    <Badge className="bg-green-100 text-green-700 text-xs">Collected</Badge>
                   </div>
-                  <Badge className="bg-green-100 text-green-700 text-xs">{activity.status}</Badge>
                 </div>
+              ))
+            ) : (
+              <div className="text-center py-8 text-gray-500">
+                <Award className="w-12 h-12 mx-auto mb-4 opacity-50" />
+                <p>No rewards yet. Get your QR code scanned by collectors to earn coins!</p>
               </div>
-            ))}
+            )}
           </CardContent>
         </Card>
+
+        {/* Legacy Activities for backwards compatibility */}
+        {activities.length > 0 && (
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <History className="w-5 h-5 text-blue-600" />
+                Legacy Activities
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              {activities.map((activity) => (
+                <div
+                  key={activity.id}
+                  className="flex items-center justify-between p-4 bg-blue-50 rounded-lg border border-blue-200"
+                >
+                  <div className="flex items-center space-x-4">
+                    <div className="w-10 h-10 bg-blue-500 rounded-full flex items-center justify-center">
+                      <Recycle className="w-5 h-5 text-white" />
+                    </div>
+                    <div>
+                      <h3 className="font-semibold text-gray-900">{activity.type}</h3>
+                      <div className="flex items-center space-x-2 text-sm text-gray-600">
+                        <Calendar className="w-4 h-4" />
+                        <span>{new Date(activity.date).toLocaleDateString()}</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="text-right">
+                    <div className="flex items-center space-x-1 text-blue-600 mb-1">
+                      <span className="font-bold">+{activity.points}</span>
+                      <span className="text-sm">coins</span>
+                    </div>
+                    <Badge className="bg-blue-100 text-blue-700 text-xs">{activity.status}</Badge>
+                  </div>
+                </div>
+              ))}
+            </CardContent>
+          </Card>
+        )}
 
         {/* Achievements */}
         <Card>
@@ -215,6 +301,14 @@ export default function ProfilePage({ user, onLogout }) {
             <p className="text-gray-600">Manage your account and preferences</p>
           </CardHeader>
           <CardContent className="space-y-3">
+            <Button
+              variant="outline"
+              onClick={() => onPageChange && onPageChange("user-qr")}
+              className="w-full justify-start border-emerald-300 text-emerald-600 hover:bg-emerald-50 bg-transparent"
+            >
+              <QrCode className="w-4 h-4 mr-2" />
+              Show My QR Code
+            </Button>
             <Button
               variant="outline"
               className="w-full justify-start border-emerald-300 text-emerald-600 hover:bg-emerald-50 bg-transparent"

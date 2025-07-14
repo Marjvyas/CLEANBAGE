@@ -202,9 +202,9 @@ export default function SchedulePage({ user, onPageChange }) {
   ]
 
   return (
-    <div className="min-h-screen bg-[url('/bg.png')] bg-cover bg-no-repeat bg-fixed">
+    <div className="min-h-screen">
       <div className="max-w-6xl mx-auto p-6 space-y-6">
-        <div className="bg-gradient-to-br from-[#CCFCE8] to-[#E9D5FF] backdrop-blur-md rounded-xl shadow-lg p-4 space-y-6">
+        <div className="page-enhanced-blur p-4 space-y-6">
           {/* Hero Header */}
           <div className="text-center py-8">
             <div className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 bg-gradient-to-br from-emerald-200 to-emerald-100 shadow-lg ring-2 ring-emerald-400/30 hover:scale-105 transition-transform duration-300">

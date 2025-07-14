@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
 import Dashboard from "../components/Dashboard"
+import VideoBackground from "../components/VideoBackground"
 
 export default function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false)
@@ -30,15 +31,17 @@ export default function App() {
 
   if (!isAuthenticated) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-emerald-50 via-teal-50 to-cyan-50 flex items-center justify-center">
-        <div className="text-emerald-600">Loading...</div>
-      </div>
+      <VideoBackground>
+        <div className="min-h-screen flex items-center justify-center">
+          <div className="text-white text-xl font-semibold">Loading...</div>
+        </div>
+      </VideoBackground>
     )
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-emerald-50 via-teal-50 to-cyan-50">
+    <VideoBackground overlay={true} overlayOpacity="20">
       <Dashboard user={user} onLogout={handleLogout} />
-    </div>
+    </VideoBackground>
   )
 }

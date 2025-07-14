@@ -99,9 +99,9 @@ export default function RequestPage({ user, setActivePage }) {
   }
 
   return (
-    <div className="min-h-screen bg-[url('/bg.png')] bg-cover bg-no-repeat bg-fixed">
+    <div className="min-h-screen">
       <div className="max-w-6xl mx-auto p-6 space-y-6">
-        <div className="bg-gradient-to-br from-[#E6FFF2] to-[#F3E8FF] backdrop-blur-md rounded-xl shadow-lg p-4">
+        <div className="page-enhanced-blur p-4">
         {/* Hero Header */}
         <div className="text-center py-8">
           <div className="w-16 h-16 rounded-full bg-blue-100 shadow-lg ring-2 ring-blue-400/30 flex items-center justify-center mx-auto mb-4 hover:scale-105 transition-transform duration-300">

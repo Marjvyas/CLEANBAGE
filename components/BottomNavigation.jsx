@@ -1,15 +1,23 @@
 "use client"
 
-import { Home, Trophy, Gift, FileText, User } from "lucide-react"
+import { Home, Trophy, Gift, FileText, User, Truck, QrCode } from "lucide-react"
 
-export default function BottomNavigation({ currentPage, onPageChange }) {
-  const navItems = [
+export default function BottomNavigation({ currentPage, onPageChange, userRole = "user" }) {
+  const userNavItems = [
     { id: "schedule", icon: Home, label: "Home" },
     { id: "leaderboard", icon: Trophy, label: "Leaderboard" },
     { id: "rewards", icon: Gift, label: "Rewards" },
     { id: "requests", icon: FileText, label: "Requests" },
     { id: "profile", icon: User, label: "Profile" },
   ]
+
+  const collectorNavItems = [
+    { id: "collector-dashboard", icon: Truck, label: "Collector" },
+    { id: "schedule", icon: Home, label: "Home" },
+    { id: "profile", icon: User, label: "Profile" },
+  ]
+
+  const navItems = userRole === "collector" ? collectorNavItems : userNavItems
 
   return (
     <div className="fixed bottom-0 left-0 right-0 bg-white/90 backdrop-blur-sm border-t border-emerald-200 px-4 py-2">

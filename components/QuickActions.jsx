@@ -1,11 +1,13 @@
 "use client"
 
-import { Calendar, Recycle, AlertTriangle } from "lucide-react"
+import { Calendar, Recycle, AlertTriangle, QrCode } from "lucide-react"
 
 export default function QuickActions({ onActionSelect, onPageChange }) {
   const handleButtonClick = (actionId) => {
     if (actionId === "schedule") {
       onPageChange("requests") // Ensure this matches the page name in Dashboard
+    } else if (actionId === "qr-generator") {
+      onPageChange("qr-generator")
     } else {
       onActionSelect(actionId)
     }
@@ -17,6 +19,12 @@ export default function QuickActions({ onActionSelect, onPageChange }) {
       title: "Collect Waste",
       description: "Start collecting waste in your area",
       icon: <Recycle className="w-6 h-6" />
+    },
+    {
+      id: "qr-generator",
+      title: "Generate QR Code",
+      description: "Create QR codes for your waste bags",
+      icon: <QrCode className="w-6 h-6" />
     },
     {
       id: "schedule",
@@ -38,7 +46,7 @@ export default function QuickActions({ onActionSelect, onPageChange }) {
         <button
           key={action.id}
           onClick={() => handleButtonClick(action.id)}
-          className="flex flex-col items-center p-6 bg-white rounded-xl shadow-md hover:shadow-lg transition-shadow"
+          className="action-card-blur flex flex-col items-center p-6 rounded-xl shadow-md hover:shadow-lg transition-all"
         >
           <div className="p-3 bg-emerald-500 rounded-full mb-3">
             {action.icon}

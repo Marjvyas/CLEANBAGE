@@ -6,10 +6,19 @@ import LeaderboardPage from "./pages/LeaderboardPage"
 import RewardsPage from "./pages/RewardsPage"
 import RequestPage from "./pages/RequestPage"
 import ProfilePage from "./pages/ProfilePage"
+import SimplifiedCollectorDashboard from "./pages/SimplifiedCollectorDashboard"
+import QRCodeGenerator from "./pages/QRCodeGenerator"
+import UserQRDisplay from "./pages/UserQRDisplay"
 import BottomNavigation from "./BottomNavigation"
+import UserBalance from "./UserBalance"
 
 export default function Dashboard({ user, onLogout }) {
-  const [currentPage, setCurrentPage] = useState("schedule")
+  const [currentPage, setCurrentPage] = useState(() => {
+    // Set default page based on user role
+    return user.selectedRole === "collector" ? "collector-dashboard" : "schedule"
+  })
+  
+  const userRole = user.selectedRole || "user"
 
   const renderPage = () => {
     switch (currentPage) {
@@ -22,16 +31,33 @@ export default function Dashboard({ user, onLogout }) {
       case "requests":
         return <RequestPage user={user} />
       case "profile":
-        return <ProfilePage user={user} onLogout={onLogout} />
+        return <ProfilePage user={user} onLogout={onLogout} onPageChange={setCurrentPage} />
+      case "user-qr":
+        return <UserQRDisplay user={user} />
+      case "collector-dashboard":
+        return <SimplifiedCollectorDashboard user={user} />
+      case "qr-generator":
+        return <QRCodeGenerator user={user} />
       default:
         return <SchedulePage user={user} onPageChange={setCurrentPage} />
     }
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-emerald-50 via-teal-50 to-cyan-50">
+    <div className="min-h-screen">
+      {/* Global User Balance - Show only for regular users, not collectors */}
+      {userRole !== "collector" && (
+        <div className="fixed top-4 right-4 z-50">
+          <UserBalance showAnimation={true} />
+        </div>
+      )}
+      
       <div className="pb-20">{renderPage()}</div>
-      <BottomNavigation currentPage={currentPage} onPageChange={setCurrentPage} />
+      <BottomNavigation 
+        currentPage={currentPage} 
+        onPageChange={setCurrentPage} 
+        userRole={userRole}
+      />
     </div>
   )
 }
