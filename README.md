@@ -121,7 +121,7 @@ git clone https://github.com/Marjvyas/CLEANBAGE.git
 cd cleanbage
 
 # 3. Install dependencies
-npm install
+npm install --legacy-peer-deps
 
 # 4. Install QR Code Scanner dependencies (Required)
 npm install qr-scanner --legacy-peer-deps
