@@ -26,13 +26,72 @@ import QuickActions from "../QuickActions"
 import CollectWaste from "../schedule-sections/CollectWaste"
 import SchedulePickup from "../schedule-sections/SchedulePickup"
 import ReportDumping from "../schedule-sections/ReportDumping"
-
 export default function SchedulePage({ user, onPageChange }) {
   const [schedules, setSchedules] = useState([])
   const [updates, setUpdates] = useState([])
   const [feedbacks, setFeedbacks] = useState([])
   const [communityStats, setCommunityStats] = useState({})
   const [selectedAction, setSelectedAction] = useState(null)
+  const [recentRewards, setRecentRewards] = useState([])
+
+  useEffect(() => {
+    // Load recent rewards from localStorage
+    const loadRecentRewards = () => {
+      try {
+        const rewardHistory = JSON.parse(localStorage.getItem("rewardHistory") || "[]")
+        // Filter rewards for current user, remove duplicates, and sort by most recent
+        const userRewards = rewardHistory
+          .filter(reward => reward.userId === (user.id || user.userId))
+          .reduce((unique, reward) => {
+            // Remove duplicates based on timestamp and pointsAwarded
+            const isDuplicate = unique.some(existing => 
+              Math.abs(new Date(existing.timestamp) - new Date(reward.timestamp)) < 5000 && 
+              existing.pointsAwarded === reward.pointsAwarded
+            )
+            if (!isDuplicate) {
+              unique.push(reward)
+            }
+            return unique
+          }, [])
+          .sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp))
+        
+        console.log(`Loaded ${userRewards.length} recent activities for user ${user.id || user.userId}`)
+        setRecentRewards(userRewards.slice(0, 5))
+      } catch (error) {
+        console.error("Error loading reward history:", error)
+      }
+    }
+    
+    loadRecentRewards()
+
+    // Listen for storage changes
+    const handleStorageChange = (event) => {
+      if (event.key === 'rewardHistory') {
+        loadRecentRewards()
+      }
+    }
+
+    window.addEventListener('storage', handleStorageChange)
+
+    // Reload every 15 seconds
+    const interval = setInterval(loadRecentRewards, 15000)
+
+    return () => {
+      window.removeEventListener('storage', handleStorageChange)
+      clearInterval(interval)
+    }
+  }, [user.id, user.userId])
+
+  const formatTimeAgo = (timestamp) => {
+    const now = new Date()
+    const time = new Date(timestamp)
+    const diffInSeconds = Math.floor((now - time) / 1000)
+    
+    if (diffInSeconds < 60) return "Just now"
+    if (diffInSeconds < 3600) return `${Math.floor(diffInSeconds / 60)}m ago`
+    if (diffInSeconds < 86400) return `${Math.floor(diffInSeconds / 3600)}h ago`
+    return `${Math.floor(diffInSeconds / 86400)}d ago`
+  }
 
   useEffect(() => {
     // Mock data setup
@@ -267,9 +326,36 @@ export default function SchedulePage({ user, onPageChange }) {
               </p>
             </CardHeader>
             <CardContent className="space-y-4">
+              {/* Real-time rewards from waste collection */}
+              {recentRewards.map((reward) => (
+                <div
+                  key={`reward-${reward.id}`}
+                  className="flex items-start gap-4 p-4 bg-emerald-50 rounded-lg border border-emerald-200"
+                >
+                  <div className="w-10 h-10 bg-emerald-500 rounded-full flex items-center justify-center flex-shrink-0">
+                    <CheckCircle className="w-5 h-5 text-white" />
+                  </div>
+                  <div className="flex-1">
+                    <div className="flex items-center justify-between mb-1">
+                      <h4 className="font-semibold text-gray-900">
+                        Waste Collection Completed
+                      </h4>
+                      <Badge className="bg-emerald-100 text-emerald-700">
+                        +{reward.pointsAwarded} coins
+                      </Badge>
+                    </div>
+                    <p className="text-gray-700 mb-2">
+                      Your waste was successfully collected and you earned {reward.pointsAwarded} coins!
+                    </p>
+                    <p className="text-sm text-gray-500">{formatTimeAgo(reward.timestamp)}</p>
+                  </div>
+                </div>
+              ))}
+              
+              {/* Static mock updates */}
               {updates.map((update) => (
                 <div
-                  key={update.id}
+                  key={`update-${update.id}`}
                   className="flex items-start gap-4 p-4 bg-green-50 rounded-lg border border-green-200"
                 >
                   <div className="w-10 h-10 bg-emerald-500 rounded-full flex items-center justify-center flex-shrink-0">
@@ -298,6 +384,15 @@ export default function SchedulePage({ user, onPageChange }) {
                   </div>
                 </div>
               ))}
+
+              {/* Empty state when no activities */}
+              {recentRewards.length === 0 && updates.length === 0 && (
+                <div className="text-center py-8 text-gray-500">
+                  <Activity className="w-12 h-12 mx-auto mb-3 text-gray-300" />
+                  <p>No recent activities</p>
+                  <p className="text-sm">Start collecting waste to see your progress!</p>
+                </div>
+              )}
             </CardContent>
           </Card>
 

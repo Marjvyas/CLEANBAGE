@@ -130,8 +130,12 @@ export function EnhancedLoginForm({ onLogin }) {
         {/* Header */}
         <Card className="page-enhanced-blur">
           <CardHeader className="text-center">
-            <div className="w-16 h-16 bg-emerald-600 rounded-full mx-auto mb-4 flex items-center justify-center">
-              <div className="text-white font-bold text-xl">CB</div>
+            <div className="w-20 h-20 bg-white rounded-full mx-auto mb-4 flex items-center justify-center shadow-lg ring-4 ring-emerald-500/20 logo-float">
+              <img 
+                src="/images/cleanbage-logo.png" 
+                alt="CleanBage Logo" 
+                className="w-16 h-16 object-contain"
+              />
             </div>
             <CardTitle className="text-2xl font-bold text-emerald-800">
               Welcome to CleanBage

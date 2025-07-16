@@ -19,6 +19,8 @@ import {
   Heart,
   Leaf,
 } from "lucide-react"
+import { useUser } from "../../context/UserContext"
+import UserBalance from "../UserBalance"
 
 export default function RewardsPage({ user, setActivePage }) {
   const [rewards, setRewards] = useState([])
@@ -26,6 +28,14 @@ export default function RewardsPage({ user, setActivePage }) {
   const [selectedCategory, setSelectedCategory] = useState("All")
   const [userStats, setUserStats] = useState({})
   const [specialOffers, setSpecialOffers] = useState([])
+  
+  // Get real-time user balance from UserContext
+  const { userBalance, refreshUserData } = useUser()
+
+  useEffect(() => {
+    // Refresh user data when rewards page loads
+    refreshUserData()
+  }, [])
 
   useEffect(() => {
     const mockRewards = [
@@ -124,12 +134,12 @@ export default function RewardsPage({ user, setActivePage }) {
     const mockCategories = ["All", "Eco-Products", "Electronics", "Garden", "Stationery"]
 
     const mockUserStats = {
-      availableCoins: user.coins,
-      totalEarned: user.coins * 3,
+      availableCoins: userBalance || 0, // Use real-time balance from UserContext
+      totalEarned: (userBalance || 0) * 2, // Estimate total earned
       totalRedeemed: 245,
       itemsPurchased: 8,
       favoriteCategory: "Eco-Products",
-      membershipLevel: "Gold",
+      membershipLevel: userBalance >= 100 ? "Gold" : userBalance >= 50 ? "Silver" : "Bronze",
     }
 
     const mockSpecialOffers = [
@@ -163,7 +173,7 @@ export default function RewardsPage({ user, setActivePage }) {
     setCategories(mockCategories)
     setUserStats(mockUserStats)
     setSpecialOffers(mockSpecialOffers)
-  }, [user.coins])
+  }, [userBalance]) // Update when balance changes
 
   const filteredRewards =
     selectedCategory === "All" ? rewards : rewards.filter((reward) => reward.category === selectedCategory)
@@ -201,28 +211,27 @@ export default function RewardsPage({ user, setActivePage }) {
         {/* Hero Header */}
         <div className="text-center py-8">
           <div className="w-16 h-16 rounded-full bg-green-100 shadow-lg ring-2 ring-green-400/30 flex items-center justify-center mx-auto mb-4 hover:scale-105 transition-transform duration-300">
-  <Gift className="w-8 h-8 text-green-600 drop-shadow-md" />
-</div>
-
-
+            <Gift className="w-8 h-8 text-green-600 drop-shadow-md" />
+          </div>
           
           <h1 className="text-4xl font-bold text-gray-900 mb-2">Eco Rewards Store</h1>
           <p className="text-gray-600 text-lg">Redeem your EcoCoins for sustainable products</p>
-          <div className="mt-4 inline-flex items-center gap-2 bg-white px-4 py-2 rounded-full shadow-sm border">
-            <Package className="w-4 h-4 text-green-600" />
-            <span className="text-gray-700 font-medium">{userStats.availableCoins} Coins Available</span>
+
+          {/* Real-time Balance Component */}
+          <div className="mt-6">
+            <UserBalance showAnimation={true} compact={false} />
           </div>
         </div>
 
         {/* User Stats */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          <Card className="text-center">
+          <Card className="text-center border-emerald-200 bg-gradient-to-br from-emerald-50 to-green-50">
             <CardContent className="p-6">
-              <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-3">
-                <Gift className="w-6 h-6 text-green-600" />
+              <div className="w-12 h-12 bg-emerald-500 rounded-full flex items-center justify-center mx-auto mb-3 shadow-lg">
+                <Gift className="w-6 h-6 text-white" />
               </div>
-              <div className="text-2xl font-bold text-green-600 mb-1">{userStats.availableCoins}</div>
-              <div className="text-gray-600 text-sm">Available Coins</div>
+              <div className="text-3xl font-bold text-emerald-600 mb-1">{userStats.availableCoins}</div>
+              <div className="text-emerald-700 text-sm font-medium">Available Coins</div>
             </CardContent>
           </Card>
           <Card className="text-center">
@@ -266,7 +275,7 @@ export default function RewardsPage({ user, setActivePage }) {
           <CardContent>
             <div className="grid md:grid-cols-3 gap-4">
               {specialOffers.map((offer) => (
-                <div key={offer.id} className="p-4 bg-yellow-50 rounded-lg border border-yellow-200">
+                <div key={offer.id} className="p-4 bg-yellow-50 rounded-lg border border-yellow-200 flex flex-col h-full">
                   <div className="flex items-center gap-2 mb-3">
                     <Zap className="w-4 h-4 text-yellow-500" />
                     <Badge className="bg-yellow-100 text-yellow-700 text-xs">
@@ -274,14 +283,16 @@ export default function RewardsPage({ user, setActivePage }) {
                     </Badge>
                   </div>
                   <h4 className="font-semibold text-gray-900 mb-2">{offer.title}</h4>
-                  <p className="text-gray-600 text-sm mb-4">{offer.description}</p>
+                  <p className="text-gray-600 text-sm mb-4 flex-grow">{offer.description}</p>
                   {offer.validUntil && (
-                    <div className="flex items-center gap-2 text-sm text-gray-600 mb-3">
+                    <div className="flex items-center gap-2 text-sm text-gray-600 mb-4">
                       <Clock className="w-4 h-4" />
                       <span>Valid until {offer.validUntil}</span>
                     </div>
                   )}
-                  <Button className="w-full bg-emerald-500 hover:bg-emerald-600 text-white">Claim Offer</Button>
+                  <div className="mt-auto">
+                    <Button className="w-full bg-emerald-500 hover:bg-emerald-600 text-white">Claim Offer</Button>
+                  </div>
                 </div>
               ))}
             </div>
@@ -309,6 +320,29 @@ export default function RewardsPage({ user, setActivePage }) {
               ))}
             </div>
           </CardHeader>
+        </Card>
+
+        {/* Affordability Summary */}
+        <Card className="border-emerald-200 bg-gradient-to-r from-emerald-50 to-green-50">
+          <CardContent className="p-6">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 bg-emerald-500 rounded-full flex items-center justify-center">
+                  <ShoppingCart className="w-5 h-5 text-white" />
+                </div>
+                <div>
+                  <h3 className="font-semibold text-emerald-800">Shopping Power</h3>
+                  <p className="text-emerald-600 text-sm">
+                    You can afford {filteredRewards.filter(reward => canAfford(reward.coins)).length} out of {filteredRewards.length} items
+                  </p>
+                </div>
+              </div>
+              <div className="text-right">
+                <div className="text-2xl font-bold text-emerald-700">{userStats.availableCoins}</div>
+                <div className="text-emerald-600 text-sm">Available Coins</div>
+              </div>
+            </div>
+          </CardContent>
         </Card>
 
         {/* Rewards Grid */}

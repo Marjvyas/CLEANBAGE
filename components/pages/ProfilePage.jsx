@@ -23,14 +23,56 @@ export default function ProfilePage({ user, onLogout, onPageChange }) {
     const loadRecentRewards = () => {
       try {
         const rewardHistory = JSON.parse(localStorage.getItem("rewardHistory") || "[]")
-        const userRewards = rewardHistory.filter(reward => reward.userId === user.userId)
-        setRecentRewards(userRewards.slice(0, 5)) // Show last 5 rewards
+        // Filter rewards for current user and sort by most recent
+        const userRewards = rewardHistory
+          .filter(reward => reward.userId === (user.id || user.userId))
+          .sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp))
+        
+        console.log(`Loaded ${userRewards.length} rewards for user ${user.id || user.userId}`)
+        setRecentRewards(userRewards.slice(0, 10)) // Show last 10 rewards
       } catch (error) {
         console.error("Error loading reward history:", error)
       }
     }
     
     loadRecentRewards()
+
+    // Listen for real-time reward activity updates
+    const handleRewardActivityAdded = (event) => {
+      const { userId, activity } = event.detail
+      if (userId === (user.id || user.userId)) {
+        console.log("New reward activity detected for current user:", activity)
+        setRecentRewards(prev => [activity, ...prev.slice(0, 9)]) // Add new activity at the top
+        
+        // Show a toast notification for the new activity
+        import('sonner').then(({ toast }) => {
+          toast.success(`🎉 New activity: +${activity.pointsAwarded} coins!`, {
+            id: `activity-${activity.id}`,
+            duration: 4000
+          })
+        })
+      }
+    }
+
+    // Listen for storage changes (cross-tab updates)
+    const handleStorageChange = (event) => {
+      if (event.key === 'rewardHistory') {
+        console.log("Reward history updated in localStorage, reloading...")
+        loadRecentRewards()
+      }
+    }
+
+    window.addEventListener('rewardActivityAdded', handleRewardActivityAdded)
+    window.addEventListener('storage', handleStorageChange)
+
+    // Reload activities every 10 seconds for real-time updates
+    const activityInterval = setInterval(loadRecentRewards, 10000)
+
+    return () => {
+      window.removeEventListener('rewardActivityAdded', handleRewardActivityAdded)
+      window.removeEventListener('storage', handleStorageChange)
+      clearInterval(activityInterval)
+    }
 
     const mockActivities = [
       {
@@ -147,11 +189,11 @@ export default function ProfilePage({ user, onLogout, onPageChange }) {
                 <div className="text-gray-600 text-sm">Collections This Month</div>
               </div>
               <div className="text-center p-4 bg-blue-50 rounded-lg border border-blue-200">
-                <div className="text-2xl font-bold text-blue-600 mb-1">{userStats.totalRedeemed}</div>
+                <div className="text-2xl font-bold text-blue-600 mb-1">{userStats.totalRedeemed || 0}</div>
                 <div className="text-gray-600 text-sm">Total Redeemed</div>
               </div>
               <div className="text-center p-4 bg-teal-50 rounded-lg border border-teal-200">
-                <div className="text-2xl font-bold text-teal-600 mb-1">{userStats.totalEarned}</div>
+                <div className="text-2xl font-bold text-teal-600 mb-1">{userStats.totalEarned || 0}</div>
                 <div className="text-gray-600 text-sm">Total Earned</div>
               </div>
             </div>

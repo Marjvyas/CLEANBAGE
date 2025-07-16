@@ -84,7 +84,7 @@ export default function LeaderboardPage({ user, setActivePage }) {
     ]
 
     const mockUserStats = {
-      currentRank: user.rank,
+      currentRank: user.rank || 0,
       totalPoints: user.coins * 2,
       weeklyProgress: 85,
       tasksCompleted: 12,
@@ -135,7 +135,7 @@ export default function LeaderboardPage({ user, setActivePage }) {
           <p className="text-gray-600 text-lg">Compete with communities and climb the rankings</p>
           <div className="mt-4 inline-flex items-center gap-2 bg-white px-4 py-2 rounded-full shadow-sm border">
             <Award className="w-4 h-4 text-yellow-600" />
-            <span className="text-gray-700 font-medium">Your Rank: #{userStats.currentRank}</span>
+            <span className="text-gray-700 font-medium">Your Rank: #{userStats.currentRank || 'N/A'}</span>
           </div>
         </div>
 
@@ -146,7 +146,7 @@ export default function LeaderboardPage({ user, setActivePage }) {
               <div className="w-12 h-12 bg-yellow-100 rounded-full flex items-center justify-center mx-auto mb-3">
                 <Trophy className="w-6 h-6 text-yellow-600" />
               </div>
-              <div className="text-2xl font-bold text-yellow-600 mb-1">#{userStats.currentRank}</div>
+              <div className="text-2xl font-bold text-yellow-600 mb-1">#{userStats.currentRank || 'N/A'}</div>
               <div className="text-gray-600 text-sm">Current Rank</div>
             </CardContent>
           </Card>
@@ -155,7 +155,9 @@ export default function LeaderboardPage({ user, setActivePage }) {
               <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-3">
                 <Star className="w-6 h-6 text-blue-600" />
               </div>
-              <div className="text-2xl font-bold text-blue-600 mb-1">{userStats.totalPoints}</div>
+              <div className="text-2xl font-bold text-blue-600 mb-1">
+                {userStats.totalPoints || 0}
+              </div>
               <div className="text-gray-600 text-sm">Total Points</div>
             </CardContent>
           </Card>
@@ -164,7 +166,7 @@ export default function LeaderboardPage({ user, setActivePage }) {
               <div className="w-12 h-12 bg-teal-100 rounded-full flex items-center justify-center mx-auto mb-3">
                 <TrendingUp className="w-6 h-6 text-teal-600" />
               </div>
-              <div className="text-2xl font-bold text-teal-600 mb-1">{userStats.weeklyProgress}%</div>
+              <div className="text-2xl font-bold text-teal-600 mb-1">{userStats.weeklyProgress || 0}%</div>
               <div className="text-gray-600 text-sm">Weekly Progress</div>
             </CardContent>
           </Card>
@@ -173,7 +175,7 @@ export default function LeaderboardPage({ user, setActivePage }) {
               <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-3">
                 <CheckCircle className="w-6 h-6 text-green-600" />
               </div>
-              <div className="text-2xl font-bold text-green-600 mb-1">{userStats.tasksCompleted}</div>
+              <div className="text-2xl font-bold text-green-600 mb-1">{userStats.tasksCompleted || 0}</div>
               <div className="text-gray-600 text-sm">Tasks Done</div>
             </CardContent>
           </Card>
@@ -182,7 +184,7 @@ export default function LeaderboardPage({ user, setActivePage }) {
               <div className="w-12 h-12 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-3">
                 <Zap className="w-6 h-6 text-orange-600" />
               </div>
-              <div className="text-2xl font-bold text-orange-600 mb-1">{userStats.streakDays}</div>
+              <div className="text-2xl font-bold text-orange-600 mb-1">{userStats.streakDays || 0}</div>
               <div className="text-gray-600 text-sm">Day Streak</div>
             </CardContent>
           </Card>

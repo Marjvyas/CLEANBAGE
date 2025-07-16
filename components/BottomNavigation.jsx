@@ -20,8 +20,37 @@ export default function BottomNavigation({ currentPage, onPageChange, userRole =
   const navItems = userRole === "collector" ? collectorNavItems : userNavItems
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 bg-white/90 backdrop-blur-sm border-t border-emerald-200 px-4 py-2">
-      <div className="flex justify-around items-center max-w-md mx-auto">
+    <nav 
+      style={{
+        position: 'fixed',
+        bottom: 0,
+        left: 0,
+        right: 0,
+        zIndex: 10000,
+        backgroundColor: 'white',
+        borderTop: '1px solid #e5e7eb',
+        padding: '8px 16px',
+        boxShadow: '0 -2px 10px rgba(0,0,0,0.1)'
+      }}
+    >
+      <div style={{ display: 'flex', justifyContent: 'space-around', alignItems: 'center', maxWidth: '600px', margin: '0 auto' }}>
+        {/* Round black button with 'N' */}
+        <button 
+          style={{
+            width: '40px',
+            height: '40px',
+            backgroundColor: 'black',
+            borderRadius: '50%',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            border: 'none',
+            cursor: 'pointer'
+          }}
+        >
+          <span style={{ color: 'white', fontSize: '14px', fontWeight: 'bold' }}>N</span>
+        </button>
+        
         {navItems.map((item) => {
           const Icon = item.icon
           const isActive = currentPage === item.id
@@ -30,18 +59,25 @@ export default function BottomNavigation({ currentPage, onPageChange, userRole =
             <button
               key={item.id}
               onClick={() => onPageChange(item.id)}
-              className={`flex flex-col items-center p-2 rounded-lg transition-all duration-300 ${
-                isActive
-                  ? "text-emerald-600 bg-emerald-100 transform scale-110"
-                  : "text-gray-500 hover:text-emerald-600"
-              }`}
+              style={{
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                padding: '4px 8px',
+                border: 'none',
+                backgroundColor: isActive ? '#ecfdf5' : 'transparent',
+                color: isActive ? '#059669' : '#6b7280',
+                borderRadius: '8px',
+                cursor: 'pointer',
+                transition: 'all 0.2s ease'
+              }}
             >
-              <Icon size={20} />
-              <span className="text-xs mt-1 font-medium">{item.label}</span>
+              <Icon size={18} />
+              <span style={{ fontSize: '12px', marginTop: '2px' }}>{item.label}</span>
             </button>
           )
         })}
       </div>
-    </div>
+    </nav>
   )
 }

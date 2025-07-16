@@ -24,7 +24,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${inter.className} min-h-screen animate-gradient-background overflow-x-hidden`}>
+      <body className={`${inter.className} min-h-screen animate-gradient-background overflow-x-hidden hide-notification-buttons`}>
         <UserProvider>
           {children}
           <ToasterProvider />

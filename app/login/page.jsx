@@ -10,9 +10,21 @@ export default function LoginPage() {
   const router = useRouter()
 
   const handleLogin = (user) => {
-    // Store user data with authentication info
-    localStorage.setItem("wasteManagementUser", JSON.stringify(user))
-    router.push("/")
+    try {
+      console.log("Handling login for user:", user)
+      
+      // Store user data with authentication info
+      localStorage.setItem("wasteManagementUser", JSON.stringify(user))
+      
+      console.log("User data stored in localStorage, redirecting to home page")
+      
+      // Redirect to home page - UserContext will handle balance sync and notifications
+      router.push("/")
+    } catch (error) {
+      console.error("Error during login process:", error)
+      // Still redirect even if there's an error
+      router.push("/")
+    }
   }
 
   return (

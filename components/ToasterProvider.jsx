@@ -11,10 +11,16 @@ export function ToasterProvider() {
         style: {
           fontSize: '14px',
         },
+        className: 'toaster-custom',
       }}
       richColors
       expand={false}
       visibleToasts={3}
+      offset={80}
+      closeButton={false}
+      theme="light"
+      // Ensure toasts don't appear near navigation
+      containerAriaLabel="Notifications"
     />
   )
 }
