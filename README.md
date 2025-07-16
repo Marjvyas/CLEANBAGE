@@ -85,14 +85,27 @@ The platform aims to reduce environmental impact, improve collection efficiency,
    yarn install
    ```
 
-3. **Run the development server**
+3. **Install QR Code Scanner dependencies (Required for QR features)**
+   ```bash
+   npm install qr-scanner --legacy-peer-deps
+   npm install qrcode --legacy-peer-deps
+   npm install react-qr-scanner --legacy-peer-deps
+   
+   # or with yarn
+   yarn add qr-scanner qrcode react-qr-scanner
+   
+   # or with pnpm
+   pnpm add qr-scanner qrcode react-qr-scanner
+   ```
+
+4. **Run the development server**
    ```bash
    npm run dev
    # or
    yarn dev
    ```
 
-4. **Open your browser**
+5. **Open your browser**
    Navigate to [http://localhost:3000](http://localhost:3000)
 
 ## ⚡ Quick Start Guide
@@ -110,7 +123,12 @@ cd cleanbage
 # 3. Install dependencies
 npm install
 
-# 4. Start the development server
+# 4. Install QR Code Scanner dependencies (Required)
+npm install qr-scanner --legacy-peer-deps
+npm install qrcode --legacy-peer-deps
+npm install react-qr-scanner --legacy-peer-deps
+
+# 5. Start the development server
 npm run dev
 ```
 
@@ -125,7 +143,10 @@ cd cleanbage
 # 3. Install dependencies
 yarn install
 
-# 4. Start the development server
+# 4. Install QR Code Scanner dependencies (Required)
+yarn add qr-scanner qrcode react-qr-scanner
+
+# 5. Start the development server
 yarn dev
 ```
 
@@ -140,7 +161,10 @@ cd cleanbage
 # 3. Install dependencies
 pnpm install
 
-# 4. Start the development server
+# 4. Install QR Code Scanner dependencies (Required)
+pnpm add qr-scanner qrcode react-qr-scanner
+
+# 5. Start the development server
 pnpm dev
 ```
 
