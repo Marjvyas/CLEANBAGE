@@ -1,4 +1,4 @@
-# 🌿 CleanBage - Smart Waste Management Platform
+# 🌿 CLEANBAGE - Smart Waste Management Platform
 
 **CleanBage** is a comprehensive digital solution designed to revolutionize urban waste management through technology and community engagement. Built with modern web technologies, this platform connects citizens, waste collectors, and municipal authorities to create a more efficient, transparent, and sustainable waste management ecosystem.
 
