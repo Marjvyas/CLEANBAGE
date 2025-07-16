@@ -1,10 +1,10 @@
-# 🌿 CleanBage - Smart Waste Management Platform
+# 🌿 CLEANBAGE - Smart Waste Management Platform
 
-**CleanBage** is a comprehensive digital solution designed to revolutionize urban waste management through technology and community engagement. Built with modern web technologies, this platform connects citizens, waste collectors, and municipal authorities to create a more efficient, transparent, and sustainable waste management ecosystem.
+**CLEANBAGE** is a comprehensive digital solution designed to revolutionize urban waste management through technology and community engagement. Built with modern web technologies, this platform connects citizens, waste collectors, and municipal authorities to create a more efficient, transparent, and sustainable waste management ecosystem.
 
 ## 📖 Project Description
 
-CleanBage addresses the growing challenges of urban waste management by providing:
+CLEANBAGE addresses the growing challenges of urban waste management by providing:
 
 - **Smart Scheduling System** - Automated waste pickup scheduling based on location, waste type, and collection routes
 - **Community Gamification** - Reward-based system that encourages proper waste segregation and environmental consciousness
@@ -169,7 +169,7 @@ pnpm dev
 ```
 
 ### 🎉 That's it!
-After running these commands, open your browser and go to [http://localhost:3000](http://localhost:3000) to see the CleanBage app running locally!
+After running these commands, open your browser and go to [http://localhost:3000](http://localhost:3000) to see the CLEANBAGE app running locally!
 
 ### 🛠️ Additional Commands
 
@@ -316,7 +316,7 @@ cleanbage/
 
 ## 🌟 Environmental Impact
 
-CleanBage promotes environmental sustainability through:
+CLEANBAGE promotes environmental sustainability through:
 - **Community Engagement** - Gamified approach to waste management
 - **Proper Disposal** - Education and rewards for correct waste sorting
 - **Reduced Waste** - Encouraging recycling and waste reduction
@@ -324,7 +324,7 @@ CleanBage promotes environmental sustainability through:
 
 ## 🤝 Contributing
 
-We welcome contributions to CleanBage! Please follow these steps:
+We welcome contributions to CLEANBAGE! Please follow these steps:
 
 1. Fork the repository
 2. Create a feature branch (`git checkout -b feature/AmazingFeature`)

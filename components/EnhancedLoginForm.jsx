@@ -69,7 +69,7 @@ export function EnhancedLoginForm({ onLogin }) {
       AuthService.validatePassword(signupData.password)
 
       const user = await AuthService.registerUser(signupData)
-      toast.success(`Welcome to CleanBage, ${user.name}!`)
+      toast.success(`Welcome to CLEANBAGE, ${user.name}!`)
       onLogin(user)
     } catch (err) {
       setError(err.message)
@@ -106,14 +106,6 @@ export function EnhancedLoginForm({ onLogin }) {
       badge: "Collector"
     },
     {
-      type: "Multi-Role User",
-      email: "both@cleanbage.com",
-      password: "both123",
-      role: "both",
-      icon: <Shield className="h-4 w-4" />,
-      badge: "Both Roles"
-    },
-    {
       type: "Unauthorized User",
       email: "unauthorized@cleanbage.com",
       password: "unauth123",
@@ -133,12 +125,12 @@ export function EnhancedLoginForm({ onLogin }) {
             <div className="w-20 h-20 bg-white rounded-full mx-auto mb-4 flex items-center justify-center shadow-lg ring-4 ring-emerald-500/20 logo-float">
               <img 
                 src="/images/cleanbage-logo.png" 
-                alt="CleanBage Logo" 
+                alt="CLEANBAGE Logo" 
                 className="w-16 h-16 object-contain"
               />
             </div>
             <CardTitle className="text-2xl font-bold text-emerald-800">
-              Welcome to CleanBage
+              Welcome to CLEANBAGE
             </CardTitle>
             <CardDescription>
               Smart Waste Management for Your Community
