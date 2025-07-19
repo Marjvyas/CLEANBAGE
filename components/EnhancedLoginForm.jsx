@@ -48,7 +48,6 @@ export function EnhancedLoginForm({ onLogin }) {
       onLogin(user)
     } catch (err) {
       setError(err.message)
-      toast.error(err.message)
     } finally {
       setIsLoading(false)
     }
@@ -59,35 +58,30 @@ export function EnhancedLoginForm({ onLogin }) {
     setIsLoading(true)
     setError("")
 
+    if (signupData.password !== signupData.confirmPassword) {
+      setError("Passwords don't match")
+      setIsLoading(false)
+      return
+    }
+
     try {
-      // Validate passwords match
-      if (signupData.password !== signupData.confirmPassword) {
-        throw new Error("Passwords do not match")
-      }
-
-      // Validate email and password
-      AuthService.validateEmail(signupData.email)
-      AuthService.validatePassword(signupData.password)
-
-      const user = await AuthService.registerUser(signupData)
-      toast.success(`Welcome to CLEANBAGE, ${user.name}!`)
+      const user = await AuthService.createUser(signupData)
+      toast.success("Account created successfully!")
       onLogin(user)
     } catch (err) {
       setError(err.message)
-      toast.error(err.message)
     } finally {
       setIsLoading(false)
     }
   }
 
-  const fillDemoCredentials = (demo) => {
+  const fillDemoCredentials = useCallback((demo) => {
     setLoginData({
       email: demo.email,
       password: demo.password,
-      role: demo.role === "both" ? "user" : demo.role
+      role: demo.role
     })
-    setIsLogin(true)
-  }
+  }, [])
 
   const demoCredentials = [
     {
@@ -119,7 +113,7 @@ export function EnhancedLoginForm({ onLogin }) {
 
   return (
     <div className="min-h-screen flex items-center justify-center p-4">
-      <div className="w-full max-w-md space-y-6">
+      <div className="w-full max-w-md space-y-6 login-fogg-blur">
         {/* Header */}
         <Card className="page-enhanced-blur">
           <CardHeader className="text-center">
@@ -133,10 +127,10 @@ export function EnhancedLoginForm({ onLogin }) {
                 priority
               />
             </div>
-            <CardTitle className="text-2xl font-bold text-emerald-800">
+            <CardTitle className="text-2xl font-bold text-white">
               Welcome to CLEANBAGE
             </CardTitle>
-            <CardDescription>
+            <CardDescription className="text-white">
               Smart Waste Management for Your Community
             </CardDescription>
           </CardHeader>
@@ -161,7 +155,7 @@ export function EnhancedLoginForm({ onLogin }) {
               <TabsContent value="login">
                 <form onSubmit={handleLogin} className="space-y-4">
                   <div className="space-y-2">
-                    <Label htmlFor="login-email">Email</Label>
+                    <Label htmlFor="login-email" className="text-white font-medium">Email</Label>
                     <Input
                       id="login-email"
                       type="email"
@@ -173,7 +167,7 @@ export function EnhancedLoginForm({ onLogin }) {
                   </div>
 
                   <div className="space-y-2">
-                    <Label htmlFor="login-password">Password</Label>
+                    <Label htmlFor="login-password" className="text-white font-medium">Password</Label>
                     <Input
                       id="login-password"
                       type="password"
@@ -185,7 +179,7 @@ export function EnhancedLoginForm({ onLogin }) {
                   </div>
 
                   <div className="space-y-2">
-                    <Label htmlFor="login-role">Sign in as</Label>
+                    <Label htmlFor="login-role" className="text-white font-medium">Sign in as</Label>
                     <Select value={loginData.role} onValueChange={(value) => setLoginData(prev => ({...prev, role: value}))}>
                       <SelectTrigger>
                         <SelectValue placeholder="Select your role" />
@@ -237,7 +231,7 @@ export function EnhancedLoginForm({ onLogin }) {
               <TabsContent value="signup">
                 <form onSubmit={handleSignup} className="space-y-4">
                   <div className="space-y-2">
-                    <Label htmlFor="signup-name">Full Name</Label>
+                    <Label htmlFor="signup-name" className="text-white font-medium">Full Name</Label>
                     <Input
                       id="signup-name"
                       type="text"
@@ -249,7 +243,7 @@ export function EnhancedLoginForm({ onLogin }) {
                   </div>
 
                   <div className="space-y-2">
-                    <Label htmlFor="signup-email">Email</Label>
+                    <Label htmlFor="signup-email" className="text-white font-medium">Email</Label>
                     <Input
                       id="signup-email"
                       type="email"
@@ -261,19 +255,7 @@ export function EnhancedLoginForm({ onLogin }) {
                   </div>
 
                   <div className="space-y-2">
-                    <Label htmlFor="signup-society">Society/Community Name</Label>
-                    <Input
-                      id="signup-society"
-                      type="text"
-                      placeholder="Enter your society name"
-                      value={signupData.society}
-                      onChange={(e) => setSignupData(prev => ({...prev, society: e.target.value}))}
-                      required
-                    />
-                  </div>
-
-                  <div className="space-y-2">
-                    <Label htmlFor="signup-phone">Phone Number</Label>
+                    <Label htmlFor="signup-phone" className="text-white font-medium">Phone Number</Label>
                     <Input
                       id="signup-phone"
                       type="tel"
@@ -285,11 +267,23 @@ export function EnhancedLoginForm({ onLogin }) {
                   </div>
 
                   <div className="space-y-2">
-                    <Label htmlFor="signup-password">Password</Label>
+                    <Label htmlFor="signup-society" className="text-white font-medium">Society/Community</Label>
+                    <Input
+                      id="signup-society"
+                      type="text"
+                      placeholder="Enter your society name"
+                      value={signupData.society}
+                      onChange={(e) => setSignupData(prev => ({...prev, society: e.target.value}))}
+                      required
+                    />
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label htmlFor="signup-password" className="text-white font-medium">Password</Label>
                     <Input
                       id="signup-password"
                       type="password"
-                      placeholder="Create a password (min. 6 characters)"
+                      placeholder="Create a password"
                       value={signupData.password}
                       onChange={(e) => setSignupData(prev => ({...prev, password: e.target.value}))}
                       required
@@ -297,7 +291,7 @@ export function EnhancedLoginForm({ onLogin }) {
                   </div>
 
                   <div className="space-y-2">
-                    <Label htmlFor="signup-confirm-password">Confirm Password</Label>
+                    <Label htmlFor="signup-confirm-password" className="text-white font-medium">Confirm Password</Label>
                     <Input
                       id="signup-confirm-password"
                       type="password"
@@ -339,8 +333,8 @@ export function EnhancedLoginForm({ onLogin }) {
         {isLogin && (
           <Card className="page-enhanced-blur">
             <CardHeader>
-              <CardTitle className="text-sm font-medium">Demo Accounts</CardTitle>
-              <CardDescription className="text-xs">
+              <CardTitle className="text-sm font-medium text-white">Demo Accounts</CardTitle>
+              <CardDescription className="text-xs text-white">
                 Click to auto-fill credentials for testing
               </CardDescription>
             </CardHeader>
@@ -372,10 +366,10 @@ export function EnhancedLoginForm({ onLogin }) {
         )}
 
         {/* Security Information */}
-        <Card className="bg-blue-50/90 border-blue-200 backdrop-blur-sm">
+        <Card className="page-enhanced-blur">
           <CardContent className="p-4">
-            <h4 className="font-medium text-blue-800 mb-2">Security & Authorization</h4>
-            <ul className="text-xs text-blue-700 space-y-1">
+            <h4 className="font-medium text-white mb-2">Security & Authorization</h4>
+            <ul className="text-xs text-white/90 space-y-1">
               <li>• <strong>Role Verification:</strong> User credentials cannot access collector features</li>
               <li>• <strong>Collector Authorization:</strong> Only community-verified collectors can access collector dashboard</li>
               <li>• <strong>Secure Registration:</strong> New accounts require community verification</li>

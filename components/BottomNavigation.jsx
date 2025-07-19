@@ -21,36 +21,17 @@ export default function BottomNavigation({ currentPage, onPageChange, userRole =
 
   return (
     <nav 
+      className="nav-white-blur"
       style={{
         position: 'fixed',
         bottom: 0,
         left: 0,
         right: 0,
         zIndex: 10000,
-        backgroundColor: 'white',
-        borderTop: '1px solid #e5e7eb',
-        padding: '8px 16px',
-        boxShadow: '0 -2px 10px rgba(0,0,0,0.1)'
+        padding: '12px 16px'
       }}
     >
       <div style={{ display: 'flex', justifyContent: 'space-around', alignItems: 'center', maxWidth: '600px', margin: '0 auto' }}>
-        {/* Round black button with 'N' */}
-        <button 
-          style={{
-            width: '40px',
-            height: '40px',
-            backgroundColor: 'black',
-            borderRadius: '50%',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            border: 'none',
-            cursor: 'pointer'
-          }}
-        >
-          <span style={{ color: 'white', fontSize: '14px', fontWeight: 'bold' }}>N</span>
-        </button>
-        
         {navItems.map((item) => {
           const Icon = item.icon
           const isActive = currentPage === item.id
@@ -63,17 +44,31 @@ export default function BottomNavigation({ currentPage, onPageChange, userRole =
                 display: 'flex',
                 flexDirection: 'column',
                 alignItems: 'center',
-                padding: '4px 8px',
+                padding: '8px 12px',
                 border: 'none',
-                backgroundColor: isActive ? '#ecfdf5' : 'transparent',
-                color: isActive ? '#059669' : '#6b7280',
-                borderRadius: '8px',
+                backgroundColor: isActive ? 'rgba(255, 255, 255, 0.25)' : 'transparent',
+                color: 'white',
+                borderRadius: '12px',
                 cursor: 'pointer',
-                transition: 'all 0.2s ease'
+                transition: 'all 0.3s ease',
+                backdropFilter: isActive ? 'blur(10px)' : 'none',
+                border: isActive ? '1px solid rgba(255, 255, 255, 0.3)' : '1px solid transparent'
+              }}
+              onMouseEnter={(e) => {
+                if (!isActive) {
+                  e.target.style.backgroundColor = 'rgba(255, 255, 255, 0.15)';
+                  e.target.style.transform = 'translateY(-2px)';
+                }
+              }}
+              onMouseLeave={(e) => {
+                if (!isActive) {
+                  e.target.style.backgroundColor = 'transparent';
+                  e.target.style.transform = 'translateY(0)';
+                }
               }}
             >
-              <Icon size={18} />
-              <span style={{ fontSize: '12px', marginTop: '2px' }}>{item.label}</span>
+              <Icon size={20} />
+              <span style={{ fontSize: '12px', marginTop: '4px', fontWeight: '500' }}>{item.label}</span>
             </button>
           )
         })}

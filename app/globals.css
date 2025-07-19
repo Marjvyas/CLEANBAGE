@@ -279,11 +279,12 @@ video.background-video {
 
 /* Enhanced blur for better visibility over video background */
 .page-enhanced-blur {
-  background: rgba(0, 0, 0, 0.15);
-  backdrop-filter: blur(35px) saturate(180%);
-  border-radius: 0.75rem;
-  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-  border: 1px solid rgba(255, 255, 255, 0.3);
+  background: rgba(0, 0, 0, 0.2) !important;
+  backdrop-filter: blur(20px) saturate(110%) brightness(0.9) !important;
+  border-radius: 12px;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05) !important;
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+  transition: all 0.3s ease;
 }
 
 /* Card blur effects for better visual hierarchy */
@@ -312,6 +313,46 @@ video.background-video {
   backdrop-filter: blur(30px) saturate(180%);
   transform: translateY(-2px);
   box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+/* Modern white blur effects for navigation and login */
+.nav-white-blur {
+  background: rgba(15, 118, 110, 0.6) !important;
+  backdrop-filter: blur(25px) saturate(150%) !important;
+  -webkit-backdrop-filter: blur(25px) saturate(150%) !important;
+  border-top: 1px solid rgba(15, 118, 110, 0.7) !important;
+  box-shadow: 0 -8px 32px rgba(15, 118, 110, 0.35) !important;
+  transition: all 0.3s ease;
+}
+
+.login-white-blur {
+  background: rgba(34, 197, 94, 0.3) !important;
+  backdrop-filter: blur(30px) saturate(200%) !important;
+  border: 1px solid rgba(34, 197, 94, 0.4) !important;
+  box-shadow: 0 25px 50px -12px rgba(34, 197, 94, 0.15) !important;
+  transition: all 0.3s ease;
+}
+
+.login-green-blur {
+  background: rgba(34, 197, 94, 0.3) !important;
+  backdrop-filter: blur(30px) saturate(200%) !important;
+  border: 1px solid rgba(34, 197, 94, 0.4) !important;
+  box-shadow: 0 25px 50px -12px rgba(34, 197, 94, 0.15) !important;
+  transition: all 0.3s ease;
+}
+
+.white-blur-card {
+  background: rgba(34, 197, 94, 0.25) !important;
+  backdrop-filter: blur(25px) !important;
+  border: 1px solid rgba(34, 197, 94, 0.35) !important;
+  box-shadow: 0 20px 40px -12px rgba(34, 197, 94, 0.12) !important;
+}
+
+.green-blur-card {
+  background: rgba(34, 197, 94, 0.25) !important;
+  backdrop-filter: blur(25px) !important;
+  border: 1px solid rgba(34, 197, 94, 0.35) !important;
+  box-shadow: 0 20px 40px -12px rgba(34, 197, 94, 0.12) !important;
 }
 
 /* QR Code Grid for 25x25 pattern */
