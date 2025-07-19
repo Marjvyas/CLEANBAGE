@@ -1,0 +1,11 @@
+{
+  "name": "cleanbage-deployment",
+  "type": "deployment-trigger",
+  "timestamp": "2025-07-19T${new Date().getTime()}",
+  "version": "2.0.0-fresh-deploy",
+  "changes": {
+    "ui": "white-text-headers",
+    "blur": "increased-35px", 
+    "fixes": "react-keys"
+  }
+}
