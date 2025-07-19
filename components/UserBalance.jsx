@@ -34,6 +34,15 @@ export default function UserBalance({ showAnimation = false, compact = false }) 
 
   const gainAmount = userBalance - prevBalance
 
+  if (isLoading) {
+    return (
+      <Badge variant="secondary" className="animate-pulse">
+        <Coins className="h-3 w-3 mr-1" />
+        Loading...
+      </Badge>
+    )
+  }
+
   if (compact) {
     return (
       <Badge 

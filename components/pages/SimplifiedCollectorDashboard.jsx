@@ -202,8 +202,8 @@ export default function SimplifiedCollectorDashboard({ user }) {
               <QrCode className="w-8 h-8 text-green-600 drop-shadow-md" />
             </div>
             
-            <h1 className="text-4xl font-bold text-gray-900 mb-2">Collector Dashboard</h1>
-            <p className="text-gray-600 text-lg">Scan user QR codes to award points (QR deactivates for 20h after scan)</p>
+            <h1 className="text-4xl font-bold text-white mb-2">Collector Dashboard</h1>
+            <p className="text-white text-lg">Scan user QR codes to award points (QR deactivates for 20h after scan)</p>
           </div>
 
           {/* Error Alert */}

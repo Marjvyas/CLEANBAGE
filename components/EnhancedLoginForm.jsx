@@ -1,6 +1,7 @@
 "use client"
 
-import { useState } from "react"
+import React, { useState, useCallback } from "react"
+import Image from "next/image"
 import { Button } from "./ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "./ui/card"
 import { Input } from "./ui/input"
@@ -123,10 +124,13 @@ export function EnhancedLoginForm({ onLogin }) {
         <Card className="page-enhanced-blur">
           <CardHeader className="text-center">
             <div className="w-20 h-20 bg-white rounded-full mx-auto mb-4 flex items-center justify-center shadow-lg ring-4 ring-emerald-500/20 logo-float">
-              <img 
+              <Image 
                 src="/images/cleanbage-logo.png" 
                 alt="CLEANBAGE Logo" 
-                className="w-16 h-16 object-contain"
+                width={64}
+                height={64}
+                className="object-contain"
+                priority
               />
             </div>
             <CardTitle className="text-2xl font-bold text-emerald-800">

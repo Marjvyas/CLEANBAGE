@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import React, { useState, useEffect, useRef } from "react"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
@@ -18,13 +18,17 @@ import {
   Crown,
   Activity,
   Calendar,
+  X,
+  MapPin,
+  Clock,
 } from "lucide-react"
 
-export default function LeaderboardPage({ user, setActivePage }) {
+export default function LeaderboardPage({ user, setActivePage, onNavigateToActivity }) {
   const [societies, setSocieties] = useState([])
   const [tasks, setTasks] = useState([])
   const [userStats, setUserStats] = useState({})
   const [achievements, setAchievements] = useState([])
+  const modalContentRef = useRef(null)
 
   useEffect(() => {
     const mockSocieties = [
@@ -104,6 +108,13 @@ export default function LeaderboardPage({ user, setActivePage }) {
     setAchievements(mockAchievements)
   }, [user.society, user.rank, user.coins])
 
+  const handleActivityClick = (activityId) => {
+    console.log('Activity clicked:', activityId) // Debug log
+    if (onNavigateToActivity) {
+      onNavigateToActivity(activityId)
+    }
+  }
+
   const getRankIcon = (rank) => {
     switch (rank) {
       case 1:
@@ -128,11 +139,11 @@ export default function LeaderboardPage({ user, setActivePage }) {
         {/* Hero Header */}
         <div className="text-center py-8">
           <div className="w-16 h-16 rounded-full bg-yellow-100 shadow-lg ring-2 ring-yellow-400/30 flex items-center justify-center mx-auto mb-4 hover:scale-105 transition-transform duration-300">
-  <Trophy className="w-8 h-8 text-yellow-600 drop-shadow-md" />
-</div>
+            <Trophy className="w-8 h-8 text-yellow-600 drop-shadow-md" />
+          </div>
 
-          <h1 className="text-4xl font-bold text-gray-900 mb-2">Society Leaderboard</h1>
-          <p className="text-gray-600 text-lg">Compete with communities and climb the rankings</p>
+          <h1 className="text-4xl font-bold text-white mb-2">Society Leaderboard</h1>
+          <p className="text-white text-lg">Compete with communities and climb the rankings</p>
           <div className="mt-4 inline-flex items-center gap-2 bg-white px-4 py-2 rounded-full shadow-sm border">
             <Award className="w-4 h-4 text-yellow-600" />
             <span className="text-gray-700 font-medium">Your Rank: #{userStats.currentRank || 'N/A'}</span>
@@ -373,33 +384,49 @@ export default function LeaderboardPage({ user, setActivePage }) {
           </CardHeader>
           <CardContent>
             <div className="grid md:grid-cols-3 gap-4">
-              <div className="text-center p-6 bg-blue-50 rounded-lg border border-blue-200">
+              <div className="text-center p-6 bg-blue-50 rounded-lg border border-blue-200 hover:shadow-md transition-shadow duration-200">
                 <div className="w-12 h-12 bg-emerald-500 rounded-full flex items-center justify-center mx-auto mb-4">
                   <Users className="w-6 h-6 text-white" />
                 </div>
                 <h4 className="font-semibold text-gray-900 mb-2">Monthly Clean-up Drive</h4>
                 <p className="text-gray-600 text-sm mb-4">Join us every first Saturday for community cleaning</p>
-                <Button className="bg-emerald-500 hover:bg-emerald-600 text-white">Join Event</Button>
+                <Button 
+                  className="bg-emerald-500 hover:bg-emerald-600 text-white"
+                  onClick={() => handleActivityClick('cleanup')}
+                >
+                  Join Event
+                </Button>
               </div>
-              <div className="text-center p-6 bg-green-50 rounded-lg border border-green-200">
+              <div className="text-center p-6 bg-green-50 rounded-lg border border-green-200 hover:shadow-md transition-shadow duration-200">
                 <div className="w-12 h-12 bg-blue-500 rounded-full flex items-center justify-center mx-auto mb-4">
                   <Activity className="w-6 h-6 text-white" />
                 </div>
                 <h4 className="font-semibold text-gray-900 mb-2">Recycling Workshops</h4>
                 <p className="text-gray-600 text-sm mb-4">Learn creative ways to reuse waste materials</p>
-                <Button className="bg-blue-500 hover:bg-blue-600 text-white">Register</Button>
+                <Button 
+                  className="bg-blue-500 hover:bg-blue-600 text-white"
+                  onClick={() => handleActivityClick('workshop')}
+                >
+                  Register
+                </Button>
               </div>
-              <div className="text-center p-6 bg-yellow-50 rounded-lg border border-yellow-200">
+              <div className="text-center p-6 bg-yellow-50 rounded-lg border border-yellow-200 hover:shadow-md transition-shadow duration-200">
                 <div className="w-12 h-12 bg-teal-500 rounded-full flex items-center justify-center mx-auto mb-4">
                   <Trophy className="w-6 h-6 text-white" />
                 </div>
                 <h4 className="font-semibold text-gray-900 mb-2">Eco-friendly Competitions</h4>
                 <p className="text-gray-600 text-sm mb-4">Participate in sustainability challenges</p>
-                <Button className="bg-teal-500 hover:bg-teal-600 text-white">Compete</Button>
+                <Button 
+                  className="bg-teal-500 hover:bg-teal-600 text-white"
+                  onClick={() => handleActivityClick('competition')}
+                >
+                  Compete
+                </Button>
               </div>
             </div>
           </CardContent>
         </Card>
+
       </div>
     </div>
     </div>

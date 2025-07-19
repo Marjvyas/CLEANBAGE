@@ -1,49 +1,35 @@
 "use client"
 
-import React from 'react'
-
-const VideoBackground = ({ className = "", children, overlay = true, overlayOpacity = "30" }) => {
+export default function VideoBackground({ children, overlay = false, overlayOpacity = "30" }) {
   return (
-    <div className={`relative min-h-screen overflow-hidden ${className}`}>
-      {/* Video Background - Fixed size regardless of zoom */}
-      <video
-        autoPlay
-        muted
-        loop
-        playsInline
-        className="video-background-fixed"
-        style={{
-          position: 'fixed',
-          top: 0,
-          left: 0,
-          width: '100vw',
-          height: '100vh',
-          objectFit: 'cover',
-          zIndex: -1,
-          transform: 'scale(1)',
-          transformOrigin: 'center center'
-        }}
-      >
-        <source src="/background-video.mp4" type="video/mp4" />
-        Your browser does not support the video tag.
-      </video>
+    <div className="relative min-h-screen overflow-hidden">
+      {/* Background Video */}
+      <div className="fixed top-0 left-0 w-full h-full -z-10 overflow-hidden">
+        <video
+          autoPlay
+          loop
+          muted
+          playsInline
+          className="w-full h-full object-cover"
+        >
+          <source src="/background-video.mp4" type="video/mp4" />
+        </video>
+      </div>
       
-      {/* Overlay for better text readability */}
+      {/* Optional light overlay - disabled by default for modern look */}
       {overlay && (
         <div 
-          className={`absolute top-0 left-0 w-full h-full bg-black z-10`}
-          style={{
-            opacity: parseInt(overlayOpacity) / 100
-          }}
-        ></div>
+          className="fixed top-0 left-0 w-full h-full -z-5" 
+          style={{ 
+            backgroundColor: `rgba(255, 255, 255, ${parseInt(overlayOpacity) / 100})` 
+          }} 
+        />
       )}
       
-      {/* Content */}
-      <div className="relative z-20">
+      {/* App content */}
+      <div className="relative z-10">
         {children}
       </div>
     </div>
   )
 }
-
-export default VideoBackground

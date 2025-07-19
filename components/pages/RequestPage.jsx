@@ -107,8 +107,8 @@ export default function RequestPage({ user, setActivePage }) {
           <div className="w-16 h-16 rounded-full bg-blue-100 shadow-lg ring-2 ring-blue-400/30 flex items-center justify-center mx-auto mb-4 hover:scale-105 transition-transform duration-300">
   <FileText className="w-8 h-8 text-blue-600 drop-shadow-md" />
 </div>
-          <h1 className="text-4xl font-bold text-gray-900 mb-2">Service Requests</h1>
-          <p className="text-gray-600 text-lg">Request various waste management services from our community</p>
+                    <h1 className="text-4xl font-bold text-white mb-2">Service Requests</h1>
+          <p className="text-white text-lg">Need help? Our eco-friendly services are here for you</p>
           <div className="mt-4 inline-flex items-center gap-2 bg-white px-4 py-2 rounded-full shadow-sm border">
             <Clock className="w-4 h-4 text-blue-600" />
             <span className="text-gray-700 font-medium">24/7 Support Available</span>

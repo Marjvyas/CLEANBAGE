@@ -152,49 +152,57 @@ export default function UserQRDisplay({ user }) {
   }
 
   return (
-    <div className="min-h-screen p-4">
-      <div className="max-w-md mx-auto space-y-6 pt-8">
+    <div className="min-h-screen p-2 sm:p-4 lg:p-6">
+      <div className="max-w-md mx-auto space-y-4 sm:space-y-6 pt-4 sm:pt-8">
         {/* Header */}
         <Card className="page-enhanced-blur">
-          <CardHeader className="text-center">
-            <div className="w-16 h-16 bg-emerald-600 rounded-full mx-auto mb-4 flex items-center justify-center">
-              <QrCode className="h-8 w-8 text-white" />
+          <CardHeader className="text-center p-4 sm:p-6">
+            <div className="w-12 h-12 sm:w-16 sm:h-16 bg-emerald-600 rounded-full mx-auto mb-3 sm:mb-4 flex items-center justify-center">
+              <QrCode className="h-6 w-6 sm:h-8 sm:w-8 text-white" />
             </div>
-            <CardTitle className="text-2xl font-bold text-emerald-800">
+            <CardTitle className="text-xl sm:text-2xl font-bold text-emerald-800">
               Your QR Code
             </CardTitle>
-            <CardDescription>
+            <CardDescription className="text-sm sm:text-base">
               Show this to collectors for verification
             </CardDescription>
           </CardHeader>
         </Card>
 
-        {/* User Info */}
+        {/* User Info - Responsive */}
         <Card className="page-enhanced-blur">
-          <CardContent className="p-6">
-            <div className="space-y-4">
-              <div className="flex items-center space-x-3">
-                <User className="h-5 w-5 text-emerald-600" />
-                <div>
-                  <p className="font-semibold text-gray-900">{qrData.userName}</p>
-                  <p className="text-sm text-gray-600">{qrData.userEmail}</p>
+          <CardContent className="p-4 sm:p-6">
+            <div className="space-y-3 sm:space-y-4">
+              <div className="flex items-center space-x-2 sm:space-x-3">
+                <User className="h-4 w-4 sm:h-5 sm:w-5 text-emerald-600" />
+                <div className="min-w-0 flex-1">
+                  <p className="font-semibold text-gray-900 text-sm sm:text-base truncate">
+                    {qrData.userName}
+                  </p>
+                  <p className="text-xs sm:text-sm text-gray-600 truncate">
+                    {qrData.userEmail}
+                  </p>
                 </div>
               </div>
               
-              <div className="flex items-center space-x-3">
-                <MapPin className="h-5 w-5 text-emerald-600" />
-                <div>
-                  <p className="font-medium text-gray-900">{qrData.society}</p>
-                  <p className="text-sm text-gray-600">Community</p>
+              <div className="flex items-center space-x-2 sm:space-x-3">
+                <MapPin className="h-4 w-4 sm:h-5 sm:w-5 text-emerald-600" />
+                <div className="min-w-0 flex-1">
+                  <p className="font-medium text-gray-900 text-sm sm:text-base truncate">
+                    {qrData.society}
+                  </p>
+                  <p className="text-xs sm:text-sm text-gray-600">Community</p>
                 </div>
               </div>
               
               <div className="flex items-center justify-between">
                 <div className="flex items-center space-x-2">
-                  <Star className="h-5 w-5 text-emerald-600" />
-                  <UserBalance showAnimation={true} />
+                  <Star className="h-4 w-4 sm:h-5 sm:w-5 text-emerald-600" />
+                  <div className="scale-75 sm:scale-100 origin-left">
+                    <UserBalance showAnimation={true} />
+                  </div>
                 </div>
-                <Badge variant="secondary" className="bg-emerald-100 text-emerald-800">
+                <Badge variant="secondary" className="bg-emerald-100 text-emerald-800 text-xs sm:text-sm">
                   Unique QR
                 </Badge>
               </div>

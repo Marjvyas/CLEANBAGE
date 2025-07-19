@@ -40,7 +40,7 @@ export default function App() {
   }
 
   return (
-    <VideoBackground overlay={true} overlayOpacity="20">
+    <VideoBackground overlay={false}>
       <Dashboard user={user} onLogout={handleLogout} />
     </VideoBackground>
   )

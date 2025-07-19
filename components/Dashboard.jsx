@@ -1,8 +1,10 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
+import { useScrollToTopOnChange } from "../hooks/useScrollToTop"
 import SchedulePage from "./pages/SchedulePage"
 import LeaderboardPage from "./pages/LeaderboardPage"
+import CommunityActivityPage from "./pages/CommunityActivityPage"
 import RewardsPage from "./pages/RewardsPage"
 import RequestPage from "./pages/RequestPage"
 import ProfilePage from "./pages/ProfilePage"
@@ -18,14 +20,31 @@ export default function Dashboard({ user, onLogout }) {
     return user.selectedRole === "collector" ? "collector-dashboard" : "schedule"
   })
   
+  const [selectedActivity, setSelectedActivity] = useState(null)
+  
   const userRole = user.selectedRole || "user"
+
+  // Scroll to top whenever page changes
+  useScrollToTopOnChange([currentPage])
+
+  const handleNavigateToActivity = (activityId) => {
+    setSelectedActivity(activityId)
+    setCurrentPage("community-activity")
+  }
+
+  const handleBackFromActivity = () => {
+    setSelectedActivity(null)
+    setCurrentPage("leaderboard")
+  }
 
   const renderPage = () => {
     switch (currentPage) {
       case "schedule":
         return <SchedulePage user={user} onPageChange={setCurrentPage} />
       case "leaderboard":
-        return <LeaderboardPage user={user} />
+        return <LeaderboardPage user={user} onNavigateToActivity={handleNavigateToActivity} />
+      case "community-activity":
+        return <CommunityActivityPage activity={selectedActivity} onBack={handleBackFromActivity} />
       case "rewards":
         return <RewardsPage user={user} />
       case "requests":

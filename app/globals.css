@@ -141,13 +141,13 @@
 }
 
 .video-background-overlay {
-  backdrop-filter: blur(1px);
+  backdrop-filter: blur(3px);
 }
 
 /* Enhanced transparency for cards over video background */
 .video-card-overlay {
-  background: rgba(255, 255, 255, 0.85);
-  backdrop-filter: blur(12px);
+  background: rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(25px);
   border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
@@ -270,8 +270,8 @@ video.background-video {
 
 /* Consistent page blur effect for all pages */
 .page-blur-container {
-  background: rgba(255, 255, 255, 0.6);
-  backdrop-filter: blur(16px);
+  background: rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(30px);
   border-radius: 0.75rem;
   box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
   border: 1px solid rgba(255, 255, 255, 0.2);
@@ -279,8 +279,8 @@ video.background-video {
 
 /* Enhanced blur for better visibility over video background */
 .page-enhanced-blur {
-  background: rgba(255, 255, 255, 0.75);
-  backdrop-filter: blur(20px) saturate(180%);
+  background: rgba(0, 0, 0, 0.15);
+  backdrop-filter: blur(35px) saturate(180%);
   border-radius: 0.75rem;
   box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
   border: 1px solid rgba(255, 255, 255, 0.3);
@@ -288,28 +288,28 @@ video.background-video {
 
 /* Card blur effects for better visual hierarchy */
 .card-blur {
-  background: rgba(255, 255, 255, 0.8);
-  backdrop-filter: blur(12px);
+  background: rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(25px);
   border: 1px solid rgba(255, 255, 255, 0.4);
 }
 
 .card-subtle-blur {
-  background: rgba(255, 255, 255, 0.9);
-  backdrop-filter: blur(8px);
+  background: rgba(0, 0, 0, 0.05);
+  backdrop-filter: blur(20px);
   border: 1px solid rgba(255, 255, 255, 0.5);
 }
 
 /* Special effect for action cards */
 .action-card-blur {
-  background: rgba(255, 255, 255, 0.85);
-  backdrop-filter: blur(10px) saturate(150%);
+  background: rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(22px) saturate(150%);
   border: 1px solid rgba(255, 255, 255, 0.3);
   transition: all 0.3s ease;
 }
 
 .action-card-blur:hover {
-  background: rgba(255, 255, 255, 0.95);
-  backdrop-filter: blur(15px) saturate(180%);
+  background: rgba(0, 0, 0, 0.15);
+  backdrop-filter: blur(30px) saturate(180%);
   transform: translateY(-2px);
   box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
 }
@@ -453,9 +453,9 @@ body {
 
 /* Modern navigation enhancements */
 .modern-nav-glass {
-  backdrop-filter: blur(20px) saturate(180%);
-  -webkit-backdrop-filter: blur(20px) saturate(180%);
-  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(35px) saturate(180%);
+  -webkit-backdrop-filter: blur(35px) saturate(180%);
+  background: rgba(0, 0, 0, 0.1);
   border: 1px solid rgba(255, 255, 255, 0.18);
 }
 

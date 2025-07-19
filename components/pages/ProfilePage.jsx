@@ -136,9 +136,9 @@ export default function ProfilePage({ user, onLogout, onPageChange }) {
                 <User className="w-10 h-10 text-emerald-600" />
               </div>
               <div className="flex-1">
-                <h1 className="text-3xl font-bold text-gray-900">{user.name}</h1>
-                <p className="text-gray-600">{user.email}</p>
-                <p className="text-gray-600">{user.society}</p>
+                <h1 className="text-3xl font-bold text-white">{user.name}</h1>
+                <p className="text-white">{user.email}</p>
+                <p className="text-white">{user.society}</p>
                 <div className="flex items-center space-x-2 mt-2">
                   {user.selectedRole === "collector" && (
                     <Badge className="bg-emerald-100 text-emerald-800">

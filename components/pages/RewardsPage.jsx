@@ -1,6 +1,7 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import React, { useState, useEffect, useMemo } from "react"
+import Image from "next/image"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
@@ -22,7 +23,7 @@ import {
 import { useUser } from "../../context/UserContext"
 import UserBalance from "../UserBalance"
 
-export default function RewardsPage({ user, setActivePage }) {
+export default React.memo(function RewardsPage({ user, setActivePage }) {
   const [rewards, setRewards] = useState([])
   const [categories, setCategories] = useState([])
   const [selectedCategory, setSelectedCategory] = useState("All")
@@ -214,8 +215,8 @@ export default function RewardsPage({ user, setActivePage }) {
             <Gift className="w-8 h-8 text-green-600 drop-shadow-md" />
           </div>
           
-          <h1 className="text-4xl font-bold text-gray-900 mb-2">Eco Rewards Store</h1>
-          <p className="text-gray-600 text-lg">Redeem your EcoCoins for sustainable products</p>
+          <h1 className="text-4xl font-bold text-white mb-2">Eco Rewards Store</h1>
+          <p className="text-white text-lg">Redeem your EcoCoins for sustainable products</p>
 
           {/* Real-time Balance Component */}
           <div className="mt-6">
@@ -358,11 +359,14 @@ export default function RewardsPage({ user, setActivePage }) {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {filteredRewards.map((reward) => (
                 <div key={reward.id} className="bg-white rounded-lg border shadow-sm overflow-hidden">
-                  <div className="relative">
-                    <img
+                  <div className="relative h-48">
+                    <Image
                       src={reward.image || "/placeholder.svg"}
                       alt={reward.name}
-                      className="w-full h-48 object-cover"
+                      fill
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                      className="object-cover"
+                      loading="lazy"
                     />
                     {!reward.inStock && (
                       <div className="absolute inset-0 bg-black/50 flex items-center justify-center">
@@ -471,4 +475,4 @@ export default function RewardsPage({ user, setActivePage }) {
     </div>
     </div>
   )
-}
+})

@@ -5,14 +5,14 @@ import { Home, Trophy, Gift, FileText, User, Truck, QrCode } from "lucide-react"
 export default function BottomNavigation({ currentPage, onPageChange, userRole = "user" }) {
   const userNavItems = [
     { id: "schedule", icon: Home, label: "Home" },
-    { id: "leaderboard", icon: Trophy, label: "Leaderboard" },
+    { id: "leaderboard", icon: Trophy, label: "Board" },
     { id: "rewards", icon: Gift, label: "Rewards" },
     { id: "requests", icon: FileText, label: "Requests" },
     { id: "profile", icon: User, label: "Profile" },
   ]
 
   const collectorNavItems = [
-    { id: "collector-dashboard", icon: Truck, label: "Collector" },
+    { id: "collector-dashboard", icon: Truck, label: "Dashboard" },
     { id: "schedule", icon: Home, label: "Home" },
     { id: "profile", icon: User, label: "Profile" },
   ]

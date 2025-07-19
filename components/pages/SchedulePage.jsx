@@ -269,10 +269,10 @@ export default function SchedulePage({ user, onPageChange }) {
             <div className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 bg-gradient-to-br from-emerald-200 to-emerald-100 shadow-lg ring-2 ring-emerald-400/30 hover:scale-105 transition-transform duration-300">
               <Recycle className="w-8 h-8 text-emerald-600 drop-shadow-md" />
             </div>
-            <h1 className="text-4xl font-bold text-gray-900 mb-2">
+            <h1 className="text-4xl font-bold text-white mb-2">
               CLEANBAGE Dashboard
             </h1>
-            <p className="text-gray-600 text-lg">
+            <p className="text-white text-lg">
               Your personalized waste management hub
             </p>
             <div className="mt-4 inline-flex items-center gap-2 bg-white px-4 py-2 rounded-full shadow-sm border">
@@ -327,9 +327,9 @@ export default function SchedulePage({ user, onPageChange }) {
             </CardHeader>
             <CardContent className="space-y-4">
               {/* Real-time rewards from waste collection */}
-              {recentRewards.map((reward) => (
+              {recentRewards.map((reward, index) => (
                 <div
-                  key={`reward-${reward.id}`}
+                  key={`reward-${reward.id || reward.timestamp || index}`}
                   className="flex items-start gap-4 p-4 bg-emerald-50 rounded-lg border border-emerald-200"
                 >
                   <div className="w-10 h-10 bg-emerald-500 rounded-full flex items-center justify-center flex-shrink-0">
